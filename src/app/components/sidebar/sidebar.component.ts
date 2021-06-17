@@ -42,6 +42,12 @@ export const ROUTES: RouteInfo[] = [
     icon: "variations",
     class: "",
   },
+  {
+    path: "/productlist",
+    title: "Ürünleri Listele",
+    icon: "variations",
+    class: "",
+  },
 ];
 
 @Component({

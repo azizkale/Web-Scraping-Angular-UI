@@ -31,7 +31,6 @@ export class VariationsLinksComponent implements OnInit {
   variations: object[] = [];
   variationslinks: string[] = [];
   productscount: number = 0; // products which are link to variationlinks
-  products: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -71,6 +70,7 @@ export class VariationsLinksComponent implements OnInit {
                 this.variations.push(val);
                 val.variationsLinksOfProduct.map((link: string) => {
                   this.variationslinks.push(link);
+                  this.httpservice.variationLinks.push(link);
                 });
                 this.productscount = this.variationslinks.length;
               },
@@ -80,29 +80,5 @@ export class VariationsLinksComponent implements OnInit {
             );
         });
       });
-  }
-
-  getProducts() {
-    this.variationslinks.map((productlink: string) => {
-      this.httpservice
-        .getProducts("http://localhost:4001/product", productlink)
-        .pipe(
-          map((val) => {
-            if (val == null) throw new Error("Invalid Value");
-            return val;
-          }),
-          retryWhen((error) =>
-            error.pipe(tap(() => console.log("Retrying... ")))
-          )
-        )
-        .subscribe(
-          (val: any) => {
-            this.products.push(val);
-          },
-
-          (err) => console.log(err),
-          () => console.log("Complete")
-        );
-    });
   }
 }

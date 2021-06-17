@@ -11,6 +11,9 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class HttpserviceService {
+  variationLinks: string[] = [];
+  products: object[] = [];
+
   constructor(private httpClient: HttpClient) {}
 
   getProducts_Links(serverurl: string, firsturl: string): Observable<any> {
