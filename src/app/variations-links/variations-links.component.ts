@@ -1,0 +1,108 @@
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { HttpserviceService } from "../httpservice.service";
+import {
+  map,
+  retryWhen,
+  tap,
+  take,
+  delay,
+  concatMap,
+  filter,
+  switchMap,
+} from "rxjs/operators";
+import { interval, Observable, observable, of, throwError, timer } from "rxjs";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+@Component({
+  selector: "app-variations-links",
+  templateUrl: "./variations-links.component.html",
+  styleUrls: ["./variations-links.component.css"],
+})
+export class VariationsLinksComponent implements OnInit {
+  firstUrl = new FormGroup({
+    url: new FormControl("", [Validators.required]),
+  });
+
+  variations: object[] = [];
+  variationslinks: string[] = [];
+  productscount: number = 0; // products which are link to variationlinks
+  products: any[] = [];
+
+  constructor(
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    private httpservice: HttpserviceService
+  ) {}
+
+  ngOnInit(): void {}
+
+  openXl(content: any) {
+    this.modalService.open(content, { size: "xl" });
+  }
+
+  getVariationLinks(form: any) {
+    this.httpservice
+      .getProducts_Links("http://localhost:4001/links", form["url"]) // gets products' url
+      .subscribe((productlinks: string[]) => {
+        console.log(productlinks);
+        productlinks.map((link) => {
+          this.httpservice
+            .getVariationLinksOfProduct(
+              // gets products' variation urls
+              "http://localhost:4001/variationlinksofproduct",
+              link
+            )
+            .pipe(
+              map((val) => {
+                if (val == null) throw new Error("Invalid Value");
+                return val;
+              }),
+              retryWhen((error) =>
+                error.pipe(tap(() => console.log("Retrying... ")))
+              )
+            )
+            .subscribe(
+              (val: any) => {
+                this.variations.push(val);
+                val.variationsLinksOfProduct.map((link: string) => {
+                  this.variationslinks.push(link);
+                });
+                this.productscount = this.variationslinks.length;
+              },
+
+              (err) => console.log(err),
+              () => console.log("Complete")
+            );
+        });
+      });
+  }
+
+  getProducts() {
+    this.variationslinks.map((productlink: string) => {
+      this.httpservice
+        .getProducts("http://localhost:4001/product", productlink)
+        .pipe(
+          map((val) => {
+            if (val == null) throw new Error("Invalid Value");
+            return val;
+          }),
+          retryWhen((error) =>
+            error.pipe(tap(() => console.log("Retrying... ")))
+          )
+        )
+        .subscribe(
+          (val: any) => {
+            this.products.push(val);
+          },
+
+          (err) => console.log(err),
+          () => console.log("Complete")
+        );
+    });
+  }
+}
