@@ -25,6 +25,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { VariationsLinksComponent } from './variations-links/variations-links.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductlistComponent } from './productlist/productlist.component';
+import { GetSingleProductComponent } from './get-single-product/get-single-product.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { ProductlistComponent } from './productlist/productlist.component';
     AdminLayoutComponent,
     VariationsLinksComponent,
     ProductlistComponent,
+    GetSingleProductComponent,
 
   ],
   providers: [],

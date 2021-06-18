@@ -16,8 +16,6 @@ import {
   filter,
   switchMap,
 } from "rxjs/operators";
-import { interval, Observable, observable, of, throwError, timer } from "rxjs";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-productlist",
