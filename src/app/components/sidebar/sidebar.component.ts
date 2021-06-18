@@ -30,12 +30,12 @@ export const ROUTES: RouteInfo[] = [
     icon: "notifications",
     class: "",
   },
-  {
-    path: "/upgrade",
-    title: "Upgrade to PRO",
-    icon: "unarchive",
-    class: "active-pro",
-  },
+  // {
+  //   path: "/upgrade",
+  //   title: "Upgrade to PRO",
+  //   icon: "unarchive",
+  //   class: "active-pro",
+  // },
   {
     path: "/variations",
     title: "Varyasyon Hesapla",

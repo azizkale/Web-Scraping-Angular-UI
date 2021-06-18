@@ -30,23 +30,56 @@
       </div>
     </div>
     <div class="row justify-content-md-center">
-      <div class="col-sm-6">
-        <div class="card card-stats">
-          <div class="card-header card-header-warning card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">content_copy</i>
-            </div>
-            <p class="card-category">Used Space</p>
-            <h3 class="card-title">
-              49/50
-              <small>GB</small>
-            </h3>
+      <div class="col-lg-6 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-warning">
+            <img src="{{ singleProduct.imagelink }}" alt="" />
           </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="material-icons text-danger">warning</i>
-              <a href="javascript:void(0)">Get More Space...</a>
-            </div>
+          <div class="card-body table-responsive">
+            <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <th>ASIN</th>
+                  <td>{{ singleProduct.asin }}</td>
+                </tr>
+                <tr>
+                  <th>İsim</th>
+                  <td>{{ singleProduct.title }}</td>
+                </tr>
+                <tr>
+                  <th>Fiyat</th>
+                  <td>{{ singleProduct.price }}</td>
+                </tr>
+                <tr>
+                  <th>Kategori</th>
+                  <td>{{ singleProduct.category }}</td>
+                </tr>
+                <tr>
+                  <th>Ürün Linki</th>
+                  <td>{{ singleProduct.link }}</td>
+                </tr>
+                <tr>
+                  <th>Stok Durumu</th>
+                  <td>{{ singleProduct.availability }}</td>
+                </tr>
+                <tr>
+                  <th>Şirket İsmi</th>
+                  <td>{{ singleProduct.companyname }}</td>
+                </tr>
+                <tr>
+                  <th>Renk</th>
+                  <td>{{ singleProduct.color }}</td>
+                </tr>
+                <tr>
+                  <th>Boyut</th>
+                  <td>{{ singleProduct.size }}</td>
+                </tr>
+                <tr>
+                  <th>Satıcı</th>
+                  <td>{{ singleProduct.seller }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

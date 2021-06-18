@@ -22,6 +22,7 @@ export class GetSingleProductComponent implements OnInit {
     url: new FormControl("", [Validators.required]),
   });
 
+  singleProduct: object;
   constructor(private httpservice: HttpserviceService) {}
 
   ngOnInit(): void {}
@@ -36,7 +37,8 @@ export class GetSingleProductComponent implements OnInit {
         retryWhen((error) => error.pipe(tap(() => console.log("Retrying... "))))
       )
       .subscribe(
-        (val: any) => {
+        (val: object) => {
+          this.singleProduct = val;
           console.log(val);
         },
 
