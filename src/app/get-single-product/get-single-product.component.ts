@@ -26,6 +26,7 @@ export class GetSingleProductComponent implements OnInit {
   constructor(private httpservice: HttpserviceService) {}
 
   ngOnInit(): void {}
+
   getSingleProduct(form: any) {
     this.httpservice
       .getProducts("http://localhost:4001/product", form["url"])
@@ -45,5 +46,13 @@ export class GetSingleProductComponent implements OnInit {
         (err) => console.log(err),
         () => console.log("Complete")
       );
+  }
+
+  openNewWindow(link: string) {
+    window.open(
+      link,
+      "_blank",
+      "location=yes,height=570,width=520,scrollbars=yes,status=yes"
+    );
   }
 }

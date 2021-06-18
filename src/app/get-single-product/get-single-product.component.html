@@ -33,7 +33,7 @@
       <div class="col-lg-6 col-md-12">
         <div class="card">
           <div class="card-header card-header-warning">
-            <img src="{{ singleProduct.imagelink }}" alt="" />
+            <img src="singleProduct.imagelink" alt="" />
           </div>
           <div class="card-body table-responsive">
             <table class="table table-hover">
@@ -56,7 +56,9 @@
                 </tr>
                 <tr>
                   <th>Ürün Linki</th>
-                  <td>{{ singleProduct.link }}</td>
+                  <a (click)="openNewWindow(singleProduct.link)">
+                    <td>{{ singleProduct.link }}</td>
+                  </a>
                 </tr>
                 <tr>
                   <th>Stok Durumu</th>
