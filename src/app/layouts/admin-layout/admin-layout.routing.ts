@@ -55,6 +55,9 @@ export const AdminLayoutRoutes: Routes = [
   //         component: UpgradeComponent
   //     }]
   // }
+  { path: "variations", component: VariationsLinksComponent },
+  { path: "productlist", component: ProductlistComponent },
+  { path: "singleproduct", component: GetSingleProductComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "user-profile", component: UserProfileComponent },
   { path: "table-list", component: TableListComponent },
@@ -63,7 +66,4 @@ export const AdminLayoutRoutes: Routes = [
   { path: "maps", component: MapsComponent },
   { path: "notifications", component: NotificationsComponent },
   //   { path: "upgrade", component: UpgradeComponent },
-  { path: "variations", component: VariationsLinksComponent },
-  { path: "productlist", component: ProductlistComponent },
-  { path: "singleproduct", component: GetSingleProductComponent },
 ];

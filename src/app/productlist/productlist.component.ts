@@ -24,10 +24,11 @@ import {
 })
 export class ProductlistComponent implements OnInit {
   products: any[] = [];
-
+  countOfVariationLinks: number;
   constructor(private httpservice: HttpserviceService) {}
 
   ngOnInit(): void {
+    this.countOfVariationLinks = this.httpservice.variationLinks.length;
     this.getProducts();
   }
 

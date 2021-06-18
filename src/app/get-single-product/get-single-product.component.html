@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="row justify-content-md-center">
-      <div class="col-lg-6 col-md-12">
+      <div class="col-lg-8 col-md-12">
         <div class="card">
           <div class="card-header card-header-warning">
             <img src="singleProduct.imagelink" alt="" />
@@ -79,6 +79,37 @@
                 <tr>
                   <th>Satıcı</th>
                   <td>{{ singleProduct.seller }}</td>
+                </tr>
+                <tr>
+                  <th>Ürün Açıklaması</th>
+                  <td>{{ singleProduct.description }}</td>
+                </tr>
+                <tr>
+                  <th>Ürün Bilgileri</th>
+                  <table>
+                    <tr *ngFor="let item of singleProduct.info">
+                      <th>{{ item.subInfoTitle }}</th>
+                      <td>{{ item.subInfo }}</td>
+                    </tr>
+                  </table>
+                </tr>
+                <tr>
+                  <th>Teknik Bilgiler</th>
+                  <table>
+                    <tr *ngFor="let item of singleProduct.technicalDetails">
+                      <th>{{ item.subInfoTitle }}</th>
+                      <td>{{ item.subInfo }}</td>
+                    </tr>
+                  </table>
+                </tr>
+                <tr>
+                  <th>Ek Bilgiler</th>
+                  <table>
+                    <tr *ngFor="let item of singleProduct.additionalInfo">
+                      <th>{{ item.subInfoTitle }}</th>
+                      <td>{{ item.subInfo }}</td>
+                    </tr>
+                  </table>
                 </tr>
               </tbody>
             </table>
