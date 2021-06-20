@@ -78,11 +78,6 @@ export class ProductlistComponent implements OnInit {
   }
 
   excell(products) {
-    this.excellservice
-      .createExcellSheet(
-        "http://localhost:4001/excell",
-        JSON.stringify(this.products)
-      )
-      .subscribe((response) => {});
+    this.excellservice.exportAsExcelFile(this.products, "Ürünler");
   }
 }

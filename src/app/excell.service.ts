@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { excell } from "excel4node";
 import { Observable } from "rxjs";
 import {
   HttpClient,
@@ -7,108 +6,62 @@ import {
   HttpHeaders,
   HttpParams,
 } from "@angular/common/http";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 @Injectable({
   providedIn: "root",
 })
 export class ExcellService {
+  EXCEL_TYPE =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  EXCEL_EXTENSION = ".xlsx";
   constructor(private httpClient: HttpClient) {}
 
-  createExcellSheet(serverurl: string, productarray): Observable<any> {
-    let params = new HttpParams().set(
-      "productsarray",
-      JSON.stringify(productarray)
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: this.EXCEL_TYPE });
+    FileSaver.saveAs(
+      data,
+      fileName + "_export_" + new Date().getTime() + this.EXCEL_EXTENSION
     );
-    return this.httpClient.get(serverurl, {
-      observe: "body",
-      responseType: "json",
-      params,
-    });
   }
 
-  // createExcellSheet(productarray: Array<any>): void {
-  //   const workbook = new this.excell.Workbook();
-  //   const style = workbook.createStyle({
-  //     font: { color: "#0101FF", size: 11 },
-  //   });
+  exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      this.convertArrayToExportableJson(json)
+    );
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ["data"],
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
 
-  //   const worksheet = workbook.addWorksheet("Ürünler");
-
-  //   productarray.forEach((row, rowIndex) => {
-  //     let colIndex = 0;
-  //     worksheet.cell(1, 1).string("Barkod");
-  //     worksheet.cell(1, 2).string("Model Kodu");
-  //     worksheet.cell(1, 3).string("Marka");
-  //     worksheet.cell(1, 4).string("Kategori");
-  //     worksheet.cell(1, 5).string("Para Birimi");
-  //     worksheet.cell(1, 6).string("Ürün Adı");
-  //     worksheet.cell(1, 7).string("Ürün Açıklaması");
-  //     worksheet.cell(1, 8).string("Piyasa Satış Fiyatı (KDV Dahil)");
-  //     worksheet.cell(1, 9).string("Trendyol'da Satılacak Fiyat (KDV Dahil)");
-  //     worksheet.cell(1, 10).string("Ürün Stok Adedi");
-  //     worksheet.cell(1, 11).string("Stok Kodu");
-  //     worksheet.cell(1, 12).string("KDV Oranı");
-  //     worksheet.cell(1, 13).string("Desi");
-  //     worksheet.cell(1, 14).string("Görsel Linki");
-  //     worksheet.cell(1, 15).string("Sevkiyat Süresi");
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(row.asin + "BBLY")
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string("???")
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(row.companyname)
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string("TL")
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(row.title)
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(row.description)
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(row.price + 15)
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(row.price + 10)
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(row.availability)
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string("???")
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(18)
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string("???")
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string(row.imagelink)
-  //       .style(style);
-  //     worksheet
-  //       .cell(rowIndex + 1, colIndex++ + 1)
-  //       .string("???")
-  //       .style(style);
-  //   });
-
-  //   return workbook;
-  // }
+  convertArrayToExportableJson(array: any[]) {
+    let exportableNewArray = [];
+    array.map((el) => {
+      exportableNewArray.push({
+        Barkod: el.asin + "BBLY",
+        "Model Kodu": "???",
+        Marka: el.companyname,
+        Kategori: el.category,
+        "Para Birimi": "TL",
+        "Ürün Adı": el.title,
+        "Ürün Açıklaması": el.description,
+        "Piyasa Satış Fiyatı (KDV Dahil)": el.price + 15,
+        "Trendyol'da Satılacak Fiyat (KDV Dahil)": el.price + 10,
+        "Ürün Stok Adedi": el.availability,
+        "Stok Kodu": "???",
+        "KDV Oranı": 18,
+        Desi: "???",
+        "Görsel Linki": el.imagelink,
+        "Sevkiyat Süresi": "???",
+      });
+    });
+    return exportableNewArray;
+  }
 }
