@@ -62,11 +62,6 @@ export class ProductlistComponent implements OnInit {
   ngOnInit(): void {
     this.countOfVariationLinks = this.httpservice.variationLinks.length;
     this.getProducts();
-
-    setTimeout(() => {
-      this.onSort(this.initialSort);
-      this.show = false;
-    }, 7000);
   }
 
   getProducts() {
@@ -86,6 +81,7 @@ export class ProductlistComponent implements OnInit {
           (val: any) => {
             this.products.push(val);
             this.productservice.producstarray.push(val);
+            this.onSort(this.initialSort);
           },
 
           (err) => console.log(err),

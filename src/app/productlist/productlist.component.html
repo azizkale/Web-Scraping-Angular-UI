@@ -11,6 +11,7 @@
             <p class="card-category" *ngIf="!countOfVariationLinks">
               Ürünleri listemek için varyasyon link sayısını hesaplayınız.
             </p>
+            <button (click)="excell()">Excell</button>
           </div>
 
           <!-- ======================== -->
@@ -48,6 +49,9 @@
                   >
                     Marka
                   </th>
+                  <th scope="col" sortable="seller" (sort)="onSort($event)">
+                    Satıcı
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -77,6 +81,12 @@
                   <td>
                     <ngb-highlight
                       [result]="product.companyname"
+                      [term]="productservice.searchTerm"
+                    ></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight
+                      [result]="product.seller"
                       [term]="productservice.searchTerm"
                     ></ngb-highlight>
                   </td>
@@ -273,5 +283,3 @@
     </button>
   </div>
 </ng-template>
-
-<button (click)="excell()">Excell</button>

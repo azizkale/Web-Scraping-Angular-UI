@@ -41,7 +41,8 @@ function sort(
 function matches(product: Product, term: string, pipe: PipeTransform) {
   return (
     product.title.toLowerCase().includes(term.toLowerCase()) ||
-    product.companyname.toLowerCase().includes(term.toLowerCase())
+    product.companyname.toLowerCase().includes(term.toLowerCase()) ||
+    product.seller.toLowerCase().includes(term.toLowerCase())
     // product.title.toLowerCase().includes(term.toLowerCase()) ||
     // pipe.transform(product.companyname).includes(term) ||
     // pipe.transform(product.seller).includes(term) // rakam için
