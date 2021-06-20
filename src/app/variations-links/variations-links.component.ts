@@ -28,7 +28,7 @@ export class VariationsLinksComponent implements OnInit {
   });
 
   variations: object[] = [];
-  variationslinks: string[] = [];
+  // variationslinks: string[] = [];
   productscount: number = 0; // products which are link to variationlinks
 
   constructor(
@@ -71,10 +71,11 @@ export class VariationsLinksComponent implements OnInit {
               (val: any) => {
                 this.variations.push(val);
                 val.variationsLinksOfProduct.map((link: string) => {
-                  this.variationslinks.push(link);
+                  // this.variationslinks.push(link);
                   this.httpservice.variationLinks.push(link);
                 });
-                this.productscount = this.variationslinks.length;
+                // this.productscount = this.variationslinks.length;
+                this.productscount = this.httpservice.variationLinks.length;
               },
 
               (err) => console.log(err),

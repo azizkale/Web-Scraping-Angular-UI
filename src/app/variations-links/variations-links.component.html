@@ -46,8 +46,15 @@
                         <th>Link</th>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let link of variationslinks; let i = index">
-                          <th scope="row">{{ variationslinks.length - i }}</th>
+                        <tr
+                          *ngFor="
+                            let link of httpservice.variationLinks;
+                            let i = index
+                          "
+                        >
+                          <th scope="row">
+                            {{ httpservice.variationLinks.length - i }}
+                          </th>
                           <a
                             class="btn btn-lg btn-outline-light"
                             (click)="openNewWindow(link)"
