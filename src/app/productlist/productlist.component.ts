@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, QueryList, ViewChildren } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -18,26 +18,55 @@ import {
 } from "rxjs/operators";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ExcellService } from "app/excell.service";
+import { ProductService } from "app/product.service";
 
+import { DecimalPipe } from "@angular/common";
+import { Observable } from "rxjs";
+
+import { NgbdSortableHeader, SortEvent } from "../sortable.directive";
+import { Product } from "Models/Product";
+
+// @Component({
+//   selector: "app-productlist",
+//   templateUrl: "./productlist.component.html",
+//   styleUrls: ["./productlist.component.css"],
+// })
 @Component({
-  selector: "app-productlist",
+  selector: "ngbd-table-complete",
   templateUrl: "./productlist.component.html",
   styleUrls: ["./productlist.component.css"],
+  providers: [ProductService, DecimalPipe],
 })
 export class ProductlistComponent implements OnInit {
+  products$: Observable<Product[]>;
+  total$: Observable<number>;
+
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
   products: any[] = [];
   countOfVariationLinks: number;
   singleProduct;
+  show = true;
+
+  initialSort: SortEvent = { column: "asin", direction: "asc" }; // to start to dispaly products as initial
   constructor(
     private httpservice: HttpserviceService,
     private modalService: NgbModal,
-    private excellservice: ExcellService
-  ) {}
+    private excellservice: ExcellService,
+    private productservice: ProductService
+  ) {
+    this.products$ = productservice.products$;
+    this.total$ = productservice.total$;
+  }
 
   ngOnInit(): void {
     this.countOfVariationLinks = this.httpservice.variationLinks.length;
     this.getProducts();
-    console.log(this.products);
+
+    setTimeout(() => {
+      this.onSort(this.initialSort);
+      this.show = false;
+    }, 7000);
   }
 
   getProducts() {
@@ -56,6 +85,7 @@ export class ProductlistComponent implements OnInit {
         .subscribe(
           (val: any) => {
             this.products.push(val);
+            this.productservice.producstarray.push(val);
           },
 
           (err) => console.log(err),
@@ -79,5 +109,17 @@ export class ProductlistComponent implements OnInit {
 
   excell(products) {
     this.excellservice.exportAsExcelFile(this.products, "Ürünler");
+  }
+
+  onSort({ column, direction }: SortEvent) {
+    // resetting other headers
+    this.headers.forEach((header) => {
+      if (header.sortable !== column) {
+        header.direction = "";
+      }
+    });
+
+    this.productservice.sortColumn = column;
+    this.productservice.sortDirection = direction;
   }
 }

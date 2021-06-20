@@ -4,11 +4,110 @@
       <div class="col-md-12">
         <div class="card card-plain">
           <div class="card-header card-header-danger">
+            <span class="ml-3" *ngIf="show && countOfVariationLinks"
+              >Ürünler yükleniyor...</span
+            >
+
             <p class="card-category" *ngIf="!countOfVariationLinks">
               Ürünleri listemek için varyasyon link sayısını hesaplayınız.
             </p>
           </div>
-          <div class="card-body">
+
+          <!-- ======================== -->
+
+          <form>
+            <div class="form-group form-inline">
+              Full text search:
+              <input
+                class="form-control ml-2"
+                type="text"
+                name="searchTerm"
+                [(ngModel)]="productservice.searchTerm"
+              />
+              <span class="ml-3" *ngIf="productservice.loading$ | async"
+                >Loading...</span
+              >
+            </div>
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col" sortable="asin" (sort)="onSort($event)">
+                    ASIN
+                  </th>
+                  <th scope="col" sortable="title" (sort)="onSort($event)">
+                    İsim
+                  </th>
+                  <th scope="col" sortable="title" (sort)="onSort($event)">
+                    Fiyat
+                  </th>
+                  <th
+                    scope="col"
+                    sortable="companyname"
+                    (sort)="onSort($event)"
+                  >
+                    Marka
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of products$ | async">
+                  <th
+                    scope="row"
+                    style="cursor: pointer"
+                    (click)="openNewWindow(product.link)"
+                  >
+                    {{ product.asin }}
+                  </th>
+                  <td
+                    style="cursor: pointer"
+                    (click)="openLg(longContent, product)"
+                  >
+                    <ngb-highlight
+                      [result]="product.title"
+                      [term]="productservice.searchTerm"
+                    ></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight
+                      [result]="product.price"
+                      [term]="productservice.searchTerm"
+                    ></ngb-highlight>
+                  </td>
+                  <td>
+                    <ngb-highlight
+                      [result]="product.companyname"
+                      [term]="productservice.searchTerm"
+                    ></ngb-highlight>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+              <ngb-pagination
+                [collectionSize]="(total$ | async)!"
+                [(page)]="productservice.page"
+                [pageSize]="productservice.pageSize"
+              >
+              </ngb-pagination>
+
+              <select
+                class="custom-select"
+                style="width: auto"
+                name="pageSize"
+                [(ngModel)]="productservice.pageSize"
+              >
+                <option [ngValue]="20">20 items per page</option>
+                <option [ngValue]="30">30 items per page</option>
+                <option [ngValue]="40">40 items per page</option>
+              </select>
+            </div>
+          </form>
+
+          <!-- ======================== -->
+
+          <!-- <div class="card-body">
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead class="col align-self-center">
@@ -16,16 +115,11 @@
                   <th>İsim</th>
                   <th>Fiyat</th>
                   <th>Kategori</th>
-                  <!-- <th>Ürün Linki</th> -->
                   <th>Stok Durumu</th>
                   <th>Şirket İsmi</th>
                   <th>Renk</th>
                   <th>Boyut</th>
                   <th>Satıcı</th>
-                  <!-- <th>Ürün Açıklaması</th>
-                  <th>Ürün Bilgileri</th>
-                  <th>Teknik Bilgiler</th>
-                  <th>Ek Bilgiler</th> -->
                 </thead>
                 <tbody *ngFor="let singleProduct of products">
                   <tr>
@@ -47,8 +141,6 @@
 
                     <td>{{ singleProduct?.category }}</td>
 
-                    <!-- <td>{{ singleProduct?.link }}</td> -->
-
                     <td>{{ singleProduct?.availability }}</td>
 
                     <td>{{ singleProduct?.companyname }}</td>
@@ -58,39 +150,11 @@
                     <td>{{ singleProduct?.size }}</td>
 
                     <td>{{ singleProduct?.seller }}</td>
-
-                    <!-- <td>{{ singleProduct?.description }}</td> -->
-                    <!-- <td>
-                      <table>
-                        <tr *ngFor="let item of singleProduct?.info">
-                          <th>{{ item?.subInfoTitle }}</th>
-                          <td>{{ item?.subInfo }}</td>
-                        </tr>
-                      </table>
-                    </td>
-                    <td>
-                      <table>
-                        <tr
-                          *ngFor="let item of singleProduct?.technicalDetails"
-                        >
-                          <th>{{ item?.subInfoTitle }}</th>
-                          <td>{{ item?.subInfo }}</td>
-                        </tr>
-                      </table>
-                    </td>
-                    <td>
-                      <table>
-                        <tr *ngFor="let item of singleProduct?.additionalInfo">
-                          <th>{{ item?.subInfoTitle }}</th>
-                          <td>{{ item?.subInfo }}</td>
-                        </tr>
-                      </table>
-                    </td> -->
                   </tr>
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
