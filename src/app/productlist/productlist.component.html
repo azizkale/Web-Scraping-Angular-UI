@@ -16,30 +16,38 @@
                   <th>İsim</th>
                   <th>Fiyat</th>
                   <th>Kategori</th>
-                  <th>Ürün Linki</th>
+                  <!-- <th>Ürün Linki</th> -->
                   <th>Stok Durumu</th>
                   <th>Şirket İsmi</th>
                   <th>Renk</th>
                   <th>Boyut</th>
                   <th>Satıcı</th>
-                  <th>Ürün Açıklaması</th>
+                  <!-- <th>Ürün Açıklaması</th>
                   <th>Ürün Bilgileri</th>
                   <th>Teknik Bilgiler</th>
-                  <th>Ek Bilgiler</th>
+                  <th>Ek Bilgiler</th> -->
                 </thead>
                 <tbody *ngFor="let singleProduct of products">
                   <tr>
-                    <td>{{ singleProduct?.asin }}</td>
+                    <td
+                      style="cursor: pointer"
+                      (click)="openNewWindow(singleProduct.link)"
+                    >
+                      {{ singleProduct?.asin }}
+                    </td>
 
-                    <td>{{ singleProduct?.title }}</td>
+                    <td
+                      style="cursor: pointer"
+                      (click)="openLg(longContent, singleProduct)"
+                    >
+                      {{ singleProduct?.title }}
+                    </td>
 
                     <td>{{ singleProduct?.price }}</td>
 
                     <td>{{ singleProduct?.category }}</td>
 
-                    <a (click)="openNewWindow(singleProduct.link)">
-                      <td>{{ singleProduct?.link }}</td>
-                    </a>
+                    <!-- <td>{{ singleProduct?.link }}</td> -->
 
                     <td>{{ singleProduct?.availability }}</td>
 
@@ -51,7 +59,7 @@
 
                     <td>{{ singleProduct?.seller }}</td>
 
-                    <td>{{ singleProduct?.description }}</td>
+                    <!-- <td>{{ singleProduct?.description }}</td> -->
                     <!-- <td>
                       <table>
                         <tr *ngFor="let item of singleProduct?.info">
@@ -88,3 +96,116 @@
     </div>
   </div>
 </div>
+
+<ng-template #longContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row justify-content-md-center">
+      <div class="col-lg-8 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-warning">
+            <img src="singleProduct.imagelink" alt="" />
+          </div>
+          <div class="card-body table-responsive">
+            <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <th>ASIN</th>
+                  <td>{{ singleProduct?.asin }}</td>
+                </tr>
+                <tr>
+                  <th>İsim</th>
+                  <td>{{ singleProduct?.title }}</td>
+                </tr>
+                <tr>
+                  <th>Fiyat</th>
+                  <td>{{ singleProduct?.price }}</td>
+                </tr>
+                <tr>
+                  <th>Kategori</th>
+                  <td>{{ singleProduct?.category }}</td>
+                </tr>
+                <tr>
+                  <th>Ürün Linki</th>
+                  <a (click)="openNewWindow(singleProduct.link)">
+                    <td>{{ singleProduct?.link }}</td>
+                  </a>
+                </tr>
+                <tr>
+                  <th>Stok Durumu</th>
+                  <td>{{ singleProduct?.availability }}</td>
+                </tr>
+                <tr>
+                  <th>Şirket İsmi</th>
+                  <td>{{ singleProduct?.companyname }}</td>
+                </tr>
+                <tr>
+                  <th>Renk</th>
+                  <td>{{ singleProduct?.color }}</td>
+                </tr>
+                <tr>
+                  <th>Boyut</th>
+                  <td>{{ singleProduct?.size }}</td>
+                </tr>
+                <tr>
+                  <th>Satıcı</th>
+                  <td>{{ singleProduct?.seller }}</td>
+                </tr>
+                <tr>
+                  <th>Ürün Açıklaması</th>
+                  <td>{{ singleProduct?.description }}</td>
+                </tr>
+                <tr>
+                  <th>Ürün Bilgileri</th>
+                  <table>
+                    <tr *ngFor="let item of singleProduct.info">
+                      <th>{{ item?.subInfoTitle }}</th>
+                      <td>{{ item?.subInfo }}</td>
+                    </tr>
+                  </table>
+                </tr>
+                <tr>
+                  <th>Teknik Bilgiler</th>
+                  <table>
+                    <tr *ngFor="let item of singleProduct.technicalDetails">
+                      <th>{{ item?.subInfoTitle }}</th>
+                      <td>{{ item?.subInfo }}</td>
+                    </tr>
+                  </table>
+                </tr>
+                <tr>
+                  <th>Ek Bilgiler</th>
+                  <table>
+                    <tr *ngFor="let item of singleProduct.additionalInfo">
+                      <th>{{ item?.subInfoTitle }}</th>
+                      <td>{{ item?.subInfo }}</td>
+                    </tr>
+                  </table>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="modal.close('Close click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

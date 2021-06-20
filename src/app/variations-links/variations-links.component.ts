@@ -17,7 +17,6 @@ import {
   switchMap,
 } from "rxjs/operators";
 import { interval, Observable, observable, of, throwError, timer } from "rxjs";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 @Component({
   selector: "app-variations-links",
   templateUrl: "./variations-links.component.html",
@@ -33,16 +32,11 @@ export class VariationsLinksComponent implements OnInit {
   productscount: number = 0; // products which are link to variationlinks
 
   constructor(
-    private modalService: NgbModal,
     private fb: FormBuilder,
     private httpservice: HttpserviceService
   ) {}
 
   ngOnInit(): void {}
-
-  openXl(content: any) {
-    this.modalService.open(content, { size: "xl" });
-  }
 
   openNewWindow(link: string) {
     window.open(

@@ -16,6 +16,7 @@ import {
   filter,
   switchMap,
 } from "rxjs/operators";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-productlist",
@@ -25,7 +26,11 @@ import {
 export class ProductlistComponent implements OnInit {
   products: any[] = [];
   countOfVariationLinks: number;
-  constructor(private httpservice: HttpserviceService) {}
+  singleProduct;
+  constructor(
+    private httpservice: HttpserviceService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.countOfVariationLinks = this.httpservice.variationLinks.length;
@@ -54,5 +59,18 @@ export class ProductlistComponent implements OnInit {
           () => console.log("Complete")
         );
     });
+  }
+
+  openNewWindow(link: string) {
+    window.open(
+      link,
+      "_blank",
+      "location=yes,height=570,width=520,scrollbars=yes,status=yes"
+    );
+  }
+
+  openLg(content, product?) {
+    this.singleProduct = product;
+    this.modalService.open(content, { size: "xl" });
   }
 }
