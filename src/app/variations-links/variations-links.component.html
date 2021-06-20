@@ -48,7 +48,12 @@
                       <tbody>
                         <tr *ngFor="let link of variationslinks; let i = index">
                           <th scope="row">{{ i + 1 }}</th>
-                          <td>{{ link }}</td>
+                          <a
+                            class="btn btn-lg btn-outline-light"
+                            (click)="openNewWindow(link)"
+                          >
+                            <td>{{ link }}</td>
+                          </a>
                         </tr>
                       </tbody>
                     </table>
