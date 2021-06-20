@@ -17,6 +17,7 @@ import {
   switchMap,
 } from "rxjs/operators";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ExcellService } from "app/excell.service";
 
 @Component({
   selector: "app-productlist",
@@ -29,12 +30,14 @@ export class ProductlistComponent implements OnInit {
   singleProduct;
   constructor(
     private httpservice: HttpserviceService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private excellservice: ExcellService
   ) {}
 
   ngOnInit(): void {
     this.countOfVariationLinks = this.httpservice.variationLinks.length;
     this.getProducts();
+    console.log(this.products);
   }
 
   getProducts() {
@@ -72,5 +75,14 @@ export class ProductlistComponent implements OnInit {
   openLg(content, product?) {
     this.singleProduct = product;
     this.modalService.open(content, { size: "xl" });
+  }
+
+  excell(products) {
+    this.excellservice
+      .createExcellSheet(
+        "http://localhost:4001/excell",
+        JSON.stringify(this.products)
+      )
+      .subscribe((response) => {});
   }
 }
