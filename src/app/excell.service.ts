@@ -52,8 +52,9 @@ export class ExcellService {
         "Para Birimi": "TL",
         "Ürün Adı": el.title,
         "Ürün Açıklaması": el.description,
-        "Piyasa Satış Fiyatı (KDV Dahil)": el.price + 15,
-        "Trendyol'da Satılacak Fiyat (KDV Dahil)": el.price + 10,
+        "Piyasa Satış Fiyatı (KDV Dahil)": +el.price + +parseFloat("20.0"),
+        "Trendyol'da Satılacak Fiyat (KDV Dahil)":
+          +el.price + +parseFloat("10.0"),
         "Ürün Stok Adedi": el.availability,
         "Stok Kodu": "???",
         "KDV Oranı": 18,
@@ -63,5 +64,15 @@ export class ExcellService {
       });
     });
     return exportableNewArray;
+  }
+
+  currenyFormat(amount: string) {
+    const formatter = new Intl.NumberFormat("tr-TR", {
+      style: "currency",
+      currency: "TRY",
+      minimumFractionDigits: 2,
+    });
+
+    return parseFloat(amount.replace(/,/, "."));
   }
 }
