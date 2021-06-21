@@ -16,14 +16,32 @@ export class HttpserviceService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getProducts_Links(serverurl: string, firsturl: string): Observable<any> {
-    let params = new HttpParams().set("firsturl", firsturl);
+  getPageCount(serverurl: string, producturl: string) {
+    let params = new HttpParams().set("pagecountcontrollink", producturl);
     return this.httpClient.get(serverurl, {
       observe: "body",
       responseType: "json",
       params,
     });
   }
+
+  getProducts_Links(
+    serverurl: string,
+    firsturl: string,
+    firstpage: string,
+    finalpage: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set("firsturl", firsturl)
+      .set("firstpage", firstpage)
+      .set("finalpage", finalpage);
+    return this.httpClient.get(serverurl, {
+      observe: "body",
+      responseType: "json",
+      params,
+    });
+  }
+
   getProducts(url: string, productlink: string): Observable<any> {
     let params = new HttpParams().set("productlink", productlink);
     return this.httpClient.get(url, {

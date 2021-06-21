@@ -17,6 +17,9 @@ import {
   switchMap,
 } from "rxjs/operators";
 import { interval, Observable, observable, of, throwError, timer } from "rxjs";
+
+declare var $: any;
+
 @Component({
   selector: "app-variations-links",
   templateUrl: "./variations-links.component.html",
@@ -28,9 +31,8 @@ export class VariationsLinksComponent implements OnInit {
   });
 
   variations: object[] = [];
-  // variationslinks: string[] = [];
   productscount: number = 0; // products which are link to variationlinks
-
+  pageCount: number;
   constructor(
     private fb: FormBuilder,
     private httpservice: HttpserviceService
@@ -46,12 +48,31 @@ export class VariationsLinksComponent implements OnInit {
     );
   }
 
+  getPageCount(form: any) {
+    this.httpservice
+      .getPageCount("http://localhost:4001/pagecount", form["url"])
+      .subscribe((pagecount) => {
+        this.pageCount = +pagecount;
+        this.showNotification(this.pageCount);
+        this.firstUrl = new FormGroup({
+          firstpage: new FormControl(1, [Validators.required]),
+          finalpage: new FormControl(this.pageCount, [Validators.required]),
+        });
+      });
+  }
+
   getVariationLinks(form: any) {
     this.httpservice
-      .getProducts_Links("http://localhost:4001/links", form["url"]) // gets products' url
-      .subscribe((productlinks: string[]) => {
-        console.log(productlinks);
-        productlinks.map((link) => {
+      .getProducts_Links(
+        "http://localhost:4001/links",
+        form["url"],
+        form["firstpage"],
+        form["finalpage"]
+      ) // gets products' urls
+      .subscribe((productlinksinfo: any) => {
+        console.log("ürün sayısı: " + productlinksinfo.linksCount);
+        console.log(productlinksinfo.linklist);
+        productlinksinfo.linklist.map((link) => {
           this.httpservice
             .getVariationLinksOfProduct(
               // gets products' variation urls
@@ -83,5 +104,34 @@ export class VariationsLinksComponent implements OnInit {
             );
         });
       });
+  }
+
+  showNotification(pagecount) {
+    // const type = ["", "info", "success", "warning", "danger"];
+
+    // const color = Math.floor(Math.random() * 4 + 1);
+
+    $.notify(
+      {
+        icon: "notifications",
+        message:
+          "Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer.",
+      },
+      {
+        type: "info",
+        timer: 4000,
+        placement: {
+          from: "top",
+          align: "center",
+        },
+        template: `  <div class="alert alert-info">
+         <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <i class="material-icons">close</i>
+         </button>
+         <span>
+             Bu link ile ${pagecount} sayfadan ürün çekmek üzeresiniz.</span>
+     </div>`,
+      }
+    );
   }
 }
