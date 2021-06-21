@@ -31,8 +31,10 @@ export class VariationsLinksComponent implements OnInit {
   });
 
   variations: object[] = [];
-  productscount: number = 0; // products which are link to variationlinks
+  variatonsCount: number = 0; // Variations links of products
   pageCount: number;
+  produtsCount: number; // without variatons
+
   constructor(
     private fb: FormBuilder,
     private httpservice: HttpserviceService
@@ -72,7 +74,7 @@ export class VariationsLinksComponent implements OnInit {
         form["finalpage"]
       ) // gets products' urls
       .subscribe((linkslist: any) => {
-        console.log(linkslist);
+        this.produtsCount = linkslist.length;
         linkslist.map((link) => {
           this.httpservice
             .getVariationLinksOfProduct(
@@ -97,7 +99,7 @@ export class VariationsLinksComponent implements OnInit {
                   this.httpservice.variationLinks.push(link);
                 });
                 // this.productscount = this.variationslinks.length;
-                this.productscount = this.httpservice.variationLinks.length;
+                this.variatonsCount = this.httpservice.variationLinks.length;
               },
 
               (err) => console.log(err),
@@ -120,7 +122,7 @@ export class VariationsLinksComponent implements OnInit {
       },
       {
         type: "info",
-        timer: 4000,
+        timer: 2000,
         placement: {
           from: "top",
           align: "center",

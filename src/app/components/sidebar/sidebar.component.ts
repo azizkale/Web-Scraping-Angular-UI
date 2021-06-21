@@ -38,19 +38,19 @@ export const ROUTES: RouteInfo[] = [
   // },
   {
     path: "/variations",
-    title: "Varyasyon Hesapla",
+    title: "Ürün Varyasyonları Hesaplama",
     icon: "",
     class: "",
   },
   {
     path: "/productlist",
-    title: "Ürünleri Listele",
+    title: "Ürünleri Listeleme",
     icon: "",
     class: "",
   },
   {
     path: "/singleproduct",
-    title: "Tek Ürün Sorgula",
+    title: "Tek Ürün Sorgulama",
     icon: "",
     class: "",
   },
