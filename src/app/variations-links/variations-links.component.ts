@@ -54,7 +54,9 @@ export class VariationsLinksComponent implements OnInit {
       .subscribe((pagecount) => {
         this.pageCount = +pagecount;
         this.showNotification(this.pageCount);
+        // define again form controls
         this.firstUrl = new FormGroup({
+          url: new FormControl(form["url"], [Validators.required]),
           firstpage: new FormControl(1, [Validators.required]),
           finalpage: new FormControl(this.pageCount, [Validators.required]),
         });
@@ -69,10 +71,9 @@ export class VariationsLinksComponent implements OnInit {
         form["firstpage"],
         form["finalpage"]
       ) // gets products' urls
-      .subscribe((productlinksinfo: any) => {
-        console.log("ürün sayısı: " + productlinksinfo.linksCount);
-        console.log(productlinksinfo.linklist);
-        productlinksinfo.linklist.map((link) => {
+      .subscribe((linkslist: any) => {
+        console.log(linkslist);
+        linkslist.map((link) => {
           this.httpservice
             .getVariationLinksOfProduct(
               // gets products' variation urls

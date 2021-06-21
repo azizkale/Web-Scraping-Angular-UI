@@ -20,7 +20,7 @@
             <p class="col-sm-10">Bu linke ait sayfa sayısını hesaplayınız.</p>
             <div class="col-sm-2">
               <button
-                type="submit"
+                type="button"
                 class="btn btn-primary"
                 (click)="getPageCount(firstUrl.value)"
               >
@@ -37,7 +37,7 @@
               id="quantity"
               name="quantity"
               min="1"
-              max="{{ pageCount - 1 }}"
+              max="{{ pageCount }}"
               value="1"
               formControlName="firstpage"
               #firstpage
