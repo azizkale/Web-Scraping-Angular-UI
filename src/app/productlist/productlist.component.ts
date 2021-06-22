@@ -43,6 +43,7 @@ export class ProductlistComponent implements OnInit {
   countOfVariationLinks: number;
   singleProduct;
   showalert1: boolean = false;
+  showExcellButton: boolean = false;
 
   initialSort: SortEvent = { column: "asin", direction: "asc" }; // to start to dispaly products as initial
   constructor(
@@ -77,6 +78,7 @@ export class ProductlistComponent implements OnInit {
             this.products.push(val);
             this.productservice.producstarray.push(val);
             this.onSort(this.initialSort);
+            this.showExcellButton = true;
           },
 
           (err) => console.log(err),
@@ -98,7 +100,7 @@ export class ProductlistComponent implements OnInit {
     this.modalService.open(content, { size: "xl" });
   }
 
-  excell(products) {
+  printToExcellSheet(products) {
     this.excellservice.exportAsExcelFile(this.products, "Ürünler");
   }
 
@@ -117,7 +119,9 @@ export class ProductlistComponent implements OnInit {
   alertInfo1() {
     if (this.httpservice.variationLinks.length === 0) {
       this.showalert1 = true;
-      this.router.navigateByUrl("/variations");
+      setTimeout(() => {
+        this.router.navigateByUrl("/variations");
+      }, 2000);
     } else this.showalert1 = false;
   }
 }

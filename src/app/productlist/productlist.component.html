@@ -10,12 +10,13 @@
                   Ürünleri listemek için varyasyon link sayısını hesaplayınız.
                 </p>
               </div>
-              <div class="col-sm-2">
-                <button (click)="getProducts()">Listele</button>
-              </div>
-              <div class="col-sm-2">
-                <button (click)="excell()">Excell</button>
-                {{ productservice.producstarray.length }}
+              <div class="col-sm-4 position-relative">
+                <button
+                  class="btn btn-danger float-sm-right"
+                  (click)="getProducts()"
+                >
+                  Listelemeyi Başlat
+                </button>
               </div>
             </div>
           </div>
@@ -119,6 +120,15 @@
                 <option [ngValue]="40">40 ürün</option>
                 <option [ngValue]="1000000">Hepsini Göster</option>
               </select>
+            </div>
+            <div class="d">
+              <button
+                *ngIf="showExcellButton"
+                class="btn btn-success float-sm-right"
+                (click)="printToExcellSheet()"
+              >
+                Excell Çıktısı Al
+              </button>
             </div>
           </form>
 
