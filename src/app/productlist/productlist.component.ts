@@ -26,11 +26,6 @@ import { Observable } from "rxjs";
 import { NgbdSortableHeader, SortEvent } from "../sortable.directive";
 import { Product } from "Models/Product";
 
-// @Component({
-//   selector: "app-productlist",
-//   templateUrl: "./productlist.component.html",
-//   styleUrls: ["./productlist.component.css"],
-// })
 @Component({
   selector: "ngbd-table-complete",
   templateUrl: "./productlist.component.html",
@@ -59,10 +54,7 @@ export class ProductlistComponent implements OnInit {
     this.total$ = productservice.total$;
   }
 
-  ngOnInit(): void {
-    this.countOfVariationLinks = this.httpservice.variationLinks.length;
-    this.getProducts();
-  }
+  ngOnInit(): void {}
 
   getProducts() {
     this.httpservice.variationLinks.map((productlink: string) => {
@@ -88,6 +80,11 @@ export class ProductlistComponent implements OnInit {
           () => console.log("Complete")
         );
     });
+  }
+
+  listProducts() {
+    this.countOfVariationLinks = this.httpservice.variationLinks.length;
+    this.getProducts();
   }
 
   openNewWindow(link: string) {
