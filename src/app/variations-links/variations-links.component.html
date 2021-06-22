@@ -67,10 +67,19 @@
             <button
               type="button"
               class="btn btn-primary col-sm-6"
+              [disabled]="variations.length"
               (click)="getVariationLinks(firstUrl.value)"
             >
               Gönder
             </button>
+          </div>
+          <div
+            class="row justify-content-center my-2"
+            *ngIf="spinnershow1 && !variations.length"
+          >
+            <div class="spinner-border text-danger" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </div>
 
           <div class="row" *ngIf="variations.length">

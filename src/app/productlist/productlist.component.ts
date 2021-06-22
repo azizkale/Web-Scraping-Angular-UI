@@ -18,13 +18,13 @@ import {
 } from "rxjs/operators";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ExcellService } from "app/excell.service";
-import { ProductService } from "app/product.service";
+import { ProductService } from "../product.service";
 
 import { DecimalPipe } from "@angular/common";
 import { Observable } from "rxjs";
 
-import { NgbdSortableHeader, SortEvent } from "../sortable.directive";
-import { Product } from "Models/Product";
+import { NgbdSortableHeader, SortEvent } from "app/sortable.directive";
+import { Product } from "../../Models/Product";
 
 @Component({
   selector: "ngbd-table-complete",

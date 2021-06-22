@@ -34,6 +34,7 @@ export class VariationsLinksComponent implements OnInit {
   variatonsCount: number = 0; // Variations links of products
   pageCount: number;
   produtsCount: number; // without variatons
+  spinnershow1: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -66,6 +67,8 @@ export class VariationsLinksComponent implements OnInit {
   }
 
   getVariationLinks(form: any) {
+    this.spinnershow1 = true;
+    this.showNotificationDontTouchAnything();
     this.httpservice
       .getProducts_Links(
         "http://localhost:4001/links",
@@ -110,10 +113,6 @@ export class VariationsLinksComponent implements OnInit {
   }
 
   showNotification(pagecount) {
-    // const type = ["", "info", "success", "warning", "danger"];
-
-    // const color = Math.floor(Math.random() * 4 + 1);
-
     $.notify(
       {
         icon: "notifications",
@@ -133,6 +132,31 @@ export class VariationsLinksComponent implements OnInit {
          </button>
          <span>
              Bu link ile ${pagecount} sayfadan ürün çekmek üzeresiniz.</span>
+     </div>`,
+      }
+    );
+  }
+
+  showNotificationDontTouchAnything() {
+    $.notify(
+      {
+        icon: "notifications",
+        message:
+          "Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer.",
+      },
+      {
+        type: "danger",
+        timer: 2000,
+        placement: {
+          from: "top",
+          align: "center",
+        },
+        template: `  <div class="alert alert-danger">
+         <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <i class="material-icons">close</i>
+         </button>
+         <span>
+             Varyasyon hesaplama sırasaında lütfen herhangi bir işlem yapmayınız.</span>
      </div>`,
       }
     );
