@@ -9,6 +9,7 @@
                 <p class="card-category h5" *ngIf="showalert1">
                   Ürünleri listemek için varyasyon link sayısını hesaplayınız.
                 </p>
+                <button (click)="goToPageEnd()"></button>
               </div>
               <div class="col-sm-4 position-relative">
                 <button
@@ -40,6 +41,7 @@
             <table class="table table-striped">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th scope="col" sortable="asin" (sort)="onSort($event)">
                     ASIN
                   </th>
@@ -62,14 +64,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let product of products$ | async">
-                  <th
+                <tr *ngFor="let product of products$ | async; let i = index">
+                  <th>{{ i + 1 }}</th>
+                  <td
                     scope="row"
                     style="cursor: pointer"
                     (click)="openNewWindow(product.link)"
                   >
                     {{ product.asin }}
-                  </th>
+                  </td>
                   <td
                     style="cursor: pointer"
                     (click)="openLg(longContent, product)"
@@ -115,10 +118,10 @@
                 name="pageSize"
                 [(ngModel)]="productservice.pageSize"
               >
-                <option [ngValue]="20">20 ürün</option>
-                <option [ngValue]="30">30 ürün</option>
-                <option [ngValue]="40">40 ürün</option>
                 <option [ngValue]="1000000">Hepsini Göster</option>
+                <option [ngValue]="40">40 ürün</option>
+                <option [ngValue]="30">30 ürün</option>
+                <option [ngValue]="20">20 ürün</option>
               </select>
             </div>
             <div class="d">

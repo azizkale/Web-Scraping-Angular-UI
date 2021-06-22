@@ -60,7 +60,7 @@ export class ProductService {
 
   private _state: State = {
     page: 1,
-    pageSize: 20,
+    pageSize: 1000000,
     searchTerm: "",
     sortColumn: "",
     sortDirection: "",

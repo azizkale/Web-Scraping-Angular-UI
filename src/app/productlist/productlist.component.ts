@@ -100,8 +100,12 @@ export class ProductlistComponent implements OnInit {
     this.modalService.open(content, { size: "xl" });
   }
 
-  printToExcellSheet(products) {
-    this.excellservice.exportAsExcelFile(this.products, "Ürünler");
+  printToExcellSheet() {
+    let printingList = [];
+    this.productservice.products$.subscribe((plist) => {
+      printingList = plist;
+    });
+    this.excellservice.exportAsExcelFile(printingList, "Ürünler");
   }
 
   onSort({ column, direction }: SortEvent) {
@@ -123,5 +127,9 @@ export class ProductlistComponent implements OnInit {
         this.router.navigateByUrl("/variations");
       }, 2000);
     } else this.showalert1 = false;
+  }
+
+  goToPageEnd() {
+    window.scrollTo(0, document.body.scrollHeight);
   }
 }
