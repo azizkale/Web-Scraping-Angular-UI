@@ -25,6 +25,7 @@ import { Observable } from "rxjs";
 
 import { NgbdSortableHeader, SortEvent } from "app/sortable.directive";
 import { Product } from "../../Models/Product";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "ngbd-table-complete",
@@ -41,14 +42,15 @@ export class ProductlistComponent implements OnInit {
   products: any[] = [];
   countOfVariationLinks: number;
   singleProduct;
-  show = true;
+  showalert1: boolean = false;
 
   initialSort: SortEvent = { column: "asin", direction: "asc" }; // to start to dispaly products as initial
   constructor(
     private httpservice: HttpserviceService,
     private modalService: NgbModal,
     private excellservice: ExcellService,
-    private productservice: ProductService
+    private productservice: ProductService,
+    private router: Router
   ) {
     this.products$ = productservice.products$;
     this.total$ = productservice.total$;
@@ -57,6 +59,7 @@ export class ProductlistComponent implements OnInit {
   ngOnInit(): void {}
 
   getProducts() {
+    this.alertInfo1();
     this.httpservice.variationLinks.map((productlink: string) => {
       this.httpservice
         .getProducts("http://localhost:4001/product", productlink)
@@ -80,11 +83,6 @@ export class ProductlistComponent implements OnInit {
           () => console.log("Complete")
         );
     });
-  }
-
-  listProducts() {
-    this.countOfVariationLinks = this.httpservice.variationLinks.length;
-    this.getProducts();
   }
 
   openNewWindow(link: string) {
@@ -114,5 +112,12 @@ export class ProductlistComponent implements OnInit {
 
     this.productservice.sortColumn = column;
     this.productservice.sortDirection = direction;
+  }
+
+  alertInfo1() {
+    if (this.httpservice.variationLinks.length === 0) {
+      this.showalert1 = true;
+      this.router.navigateByUrl("/variations");
+    } else this.showalert1 = false;
   }
 }

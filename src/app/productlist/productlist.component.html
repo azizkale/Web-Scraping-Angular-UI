@@ -4,22 +4,27 @@
       <div class="col-md-12">
         <div class="card card-plain">
           <div class="card-header card-header-danger">
-            <span class="ml-3" *ngIf="show && countOfVariationLinks"
-              >Ürünler yükleniyor...</span
-            >
-
-            <p class="card-category" *ngIf="!countOfVariationLinks">
-              Ürünleri listemek için varyasyon link sayısını hesaplayınız.
-            </p>
-            <button (click)="excell()">Excell</button>
-            <button (click)="listProducts()">Ürünleri Listele</button>
+            <div class="row">
+              <div class="col-sm-8">
+                <p class="card-category h5" *ngIf="showalert1">
+                  Ürünleri listemek için varyasyon link sayısını hesaplayınız.
+                </p>
+              </div>
+              <div class="col-sm-2">
+                <button (click)="getProducts()">Listele</button>
+              </div>
+              <div class="col-sm-2">
+                <button (click)="excell()">Excell</button>
+                {{ productservice.producstarray.length }}
+              </div>
+            </div>
           </div>
 
-          <!-- ======================== -->
+          <!-- ==========TABLE============== -->
 
           <form>
             <div class="form-group form-inline">
-              Full text search:
+              Ara:
               <input
                 class="form-control ml-2"
                 type="text"
@@ -109,9 +114,10 @@
                 name="pageSize"
                 [(ngModel)]="productservice.pageSize"
               >
-                <option [ngValue]="20">20 items per page</option>
-                <option [ngValue]="30">30 items per page</option>
-                <option [ngValue]="40">40 items per page</option>
+                <option [ngValue]="20">20 ürün</option>
+                <option [ngValue]="30">30 ürün</option>
+                <option [ngValue]="40">40 ürün</option>
+                <option [ngValue]="1000000">Hepsini Göster</option>
               </select>
             </div>
           </form>
