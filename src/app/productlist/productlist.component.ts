@@ -1,4 +1,11 @@
-import { Component, OnInit, QueryList, ViewChildren } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -44,20 +51,25 @@ export class ProductlistComponent implements OnInit {
   singleProduct;
   showalert1: boolean = false;
   showExcellButton: boolean = false;
-
   initialSort: SortEvent = { column: "asin", direction: "asc" }; // to start to dispaly products as initial
+  @ViewChild("btnToTop") btnToTop;
+  @ViewChild("btnToEnd") btnToEnd;
+
   constructor(
     private httpservice: HttpserviceService,
     private modalService: NgbModal,
     private excellservice: ExcellService,
     private productservice: ProductService,
-    private router: Router
+    private router: Router,
+    private el: ElementRef
   ) {
     this.products$ = productservice.products$;
     this.total$ = productservice.total$;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    window.addEventListener("scroll", this.scroll, true); //third parameter
+  }
 
   getProducts() {
     this.alertInfo1();
@@ -129,7 +141,23 @@ export class ProductlistComponent implements OnInit {
     } else this.showalert1 = false;
   }
 
-  goToPageEnd() {
-    window.scrollTo(0, document.body.scrollHeight);
+  backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
+  backToEnd() {
+    document.body.scrollTop =
+      this.el.nativeElement.closest("body").scrollHeight;
+    document.documentElement.scrollTop = 0;
+  }
+
+  // displays scroll button as long as page moves
+  scroll = (event: any): void => {
+    const number = event.srcElement.scrollTop;
+    if (number > 100) {
+      this.btnToTop.nativeElement.style.display = "block";
+    } else {
+      this.btnToTop.nativeElement.style.display = "none";
+    }
+  };
 }

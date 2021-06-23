@@ -9,7 +9,6 @@
                 <p class="card-category h5" *ngIf="showalert1">
                   Ürünleri listemek için varyasyon link sayısını hesaplayınız.
                 </p>
-                <button (click)="goToPageEnd()"></button>
               </div>
               <div class="col-sm-4 position-relative">
                 <button
@@ -25,17 +24,27 @@
           <!-- ==========TABLE============== -->
 
           <form>
-            <div class="form-group form-inline">
-              Ara:
-              <input
-                class="form-control ml-2"
-                type="text"
-                name="searchTerm"
-                [(ngModel)]="productservice.searchTerm"
-              />
-              <span class="ml-3" *ngIf="productservice.loading$ | async"
-                >Loading...</span
-              >
+            <div class="form-group form-inline row">
+              <div class="col">
+                Ara:
+                <input
+                  class="form-control ml-2"
+                  type="text"
+                  name="searchTerm"
+                  [(ngModel)]="productservice.searchTerm"
+                />
+                <span class="ml-3" *ngIf="productservice.loading$ | async"
+                  >Loading...</span
+                >
+              </div>
+              <div class="col">
+                <i
+                  type="button"
+                  #btnToEnd
+                  (click)="backToEnd()"
+                  class="float-sm-right bi bi-arrow-down-square fa-2x"
+                ></i>
+              </div>
             </div>
 
             <table class="table table-striped">
@@ -134,63 +143,13 @@
               </button>
             </div>
           </form>
-
-          <!-- ======================== -->
-
-          <!-- <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead class="col align-self-center">
-                  <th>ASIN</th>
-                  <th>İsim</th>
-                  <th>Fiyat</th>
-                  <th>Kategori</th>
-                  <th>Stok Durumu</th>
-                  <th>Şirket İsmi</th>
-                  <th>Renk</th>
-                  <th>Boyut</th>
-                  <th>Satıcı</th>
-                </thead>
-                <tbody *ngFor="let singleProduct of products">
-                  <tr>
-                    <td
-                      style="cursor: pointer"
-                      (click)="openNewWindow(singleProduct.link)"
-                    >
-                      {{ singleProduct?.asin }}
-                    </td>
-
-                    <td
-                      style="cursor: pointer"
-                      (click)="openLg(longContent, singleProduct)"
-                    >
-                      {{ singleProduct?.title }}
-                    </td>
-
-                    <td>{{ singleProduct?.price }}</td>
-
-                    <td>{{ singleProduct?.category }}</td>
-
-                    <td>{{ singleProduct?.availability }}</td>
-
-                    <td>{{ singleProduct?.companyname }}</td>
-
-                    <td>{{ singleProduct?.color }}</td>
-
-                    <td>{{ singleProduct?.size }}</td>
-
-                    <td>{{ singleProduct?.seller }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Modal======================= -->
 <ng-template #longContent let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Modal title</h4>
@@ -303,3 +262,13 @@
     </button>
   </div>
 </ng-template>
+
+<!-- Back to top button -->
+<i
+  type="button"
+  #btnToTop
+  id="btn-back-to-top"
+  (click)="backToTop()"
+  class="float-sm-right bi bi-arrow-up-square fa-2x"
+></i>
+<div style="height: 1000px"></div>
