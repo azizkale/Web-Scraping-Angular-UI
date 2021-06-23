@@ -38,20 +38,20 @@ export const ROUTES: RouteInfo[] = [
   // },
   {
     path: "/variations",
-    title: "Ürün Varyasyonları Hesaplama",
-    icon: "",
+    title: "Varyasyon Hesaplama",
+    icon: "functions",
     class: "",
   },
   {
     path: "/productlist",
     title: "Ürünleri Listeleme",
-    icon: "",
+    icon: "list_alt",
     class: "",
   },
   {
     path: "/singleproduct",
     title: "Tek Ürün Sorgulama",
-    icon: "",
+    icon: "manage_search",
     class: "",
   },
 ];
