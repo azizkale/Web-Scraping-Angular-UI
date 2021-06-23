@@ -47,7 +47,6 @@ export class ProductlistComponent implements OnInit {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
   products: any[] = [];
-  countOfVariationLinks: number;
   singleProduct;
   showalert1: boolean = false;
   showExcellButton: boolean = false;
@@ -142,10 +141,12 @@ export class ProductlistComponent implements OnInit {
   }
 
   backToTop() {
+    console.log("top");
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
   backToEnd() {
+    console.log("end");
     document.body.scrollTop =
       this.el.nativeElement.closest("body").scrollHeight;
     document.documentElement.scrollTop = 0;
@@ -154,7 +155,7 @@ export class ProductlistComponent implements OnInit {
   // displays scroll button as long as page moves
   scroll = (event: any): void => {
     const number = event.srcElement.scrollTop;
-    if (number > 100) {
+    if (number > 0) {
       this.btnToTop.nativeElement.style.display = "block";
     } else {
       this.btnToTop.nativeElement.style.display = "none";
