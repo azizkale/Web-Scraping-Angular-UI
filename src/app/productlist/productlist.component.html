@@ -20,7 +20,7 @@
               </div>
             </div>
           </div>
-
+          <div #top></div>
           <!-- ==========TABLE============== -->
 
           <form>
@@ -41,7 +41,7 @@
                 <i
                   type="button"
                   #btnToEnd
-                  (click)="backToEnd()"
+                  (click)="goToPosition(end)"
                   class="float-sm-right bi bi-arrow-down-square fa-2x"
                 ></i>
               </div>
@@ -268,7 +268,7 @@
   type="button"
   #btnToTop
   id="btn-back-to-top"
-  (click)="backToTop()"
+  (click)="goToPosition(top)"
   class="float-sm-right bi bi-arrow-up-square fa-2x"
 ></i>
-<div style="height: 500px"></div>
+<div #end></div>

@@ -156,7 +156,7 @@ export class VariationsLinksComponent implements OnInit {
              <i class="material-icons">close</i>
          </button>
          <span>
-             Varyasyon hesaplama sırasaında lütfen herhangi bir işlem yapmayınız.</span>
+             Varyasyon hesaplama sırasında lütfen herhangi bir işlem yapmayınız.</span>
      </div>`,
       }
     );

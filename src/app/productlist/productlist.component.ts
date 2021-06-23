@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  HostListener,
   OnInit,
   QueryList,
   ViewChild,
@@ -44,7 +45,8 @@ export class ProductlistComponent implements OnInit {
   products$: Observable<Product[]>;
   total$: Observable<number>;
 
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  @ViewChildren(NgbdSortableHeader)
+  headers: QueryList<NgbdSortableHeader>;
 
   products: any[] = [];
   singleProduct;
@@ -67,7 +69,7 @@ export class ProductlistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    window.addEventListener("scroll", this.scroll, true); //third parameter
+    window.addEventListener("scroll", this.scroll, true); // to display btnToTop button
   }
 
   getProducts() {
@@ -140,19 +142,11 @@ export class ProductlistComponent implements OnInit {
     } else this.showalert1 = false;
   }
 
-  backToTop() {
-    console.log("top");
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  }
-  backToEnd() {
-    console.log("end");
-    document.body.scrollTop =
-      this.el.nativeElement.closest("body").scrollHeight;
-    document.documentElement.scrollTop = 0;
+  goToPosition(el: HTMLElement) {
+    el.scrollIntoView();
   }
 
-  // displays scroll button as long as page moves
+  // to dpisplay goToTop button
   scroll = (event: any): void => {
     const number = event.srcElement.scrollTop;
     if (number > 0) {
