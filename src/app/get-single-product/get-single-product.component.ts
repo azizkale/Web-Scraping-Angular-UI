@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { ExcellService } from "app/excell.service";
 import { HttpserviceService } from "app/httpservice.service";
+import { ProductService } from "app/product.service";
 import {
   map,
   retryWhen,
@@ -23,7 +25,10 @@ export class GetSingleProductComponent implements OnInit {
   });
 
   singleProduct: object;
-  constructor(private httpservice: HttpserviceService) {}
+  constructor(
+    private httpservice: HttpserviceService,
+    private excellservice: ExcellService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -46,5 +51,9 @@ export class GetSingleProductComponent implements OnInit {
         (err) => console.log(err),
         () => console.log("Complete")
       );
+  }
+
+  printToExcellSheet() {
+    this.excellservice.exportAsExcelFile([this.singleProduct], "Ürünler");
   }
 }

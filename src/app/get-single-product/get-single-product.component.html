@@ -32,8 +32,8 @@
     <div class="row justify-content-md-center">
       <div class="col-lg-8 col-md-12">
         <div class="card">
-          <div class="card-header card-header-warning">
-            <img src="singleProduct?.imagelink" alt="" />
+          <div class="card-header card-header-warning text-center">
+            <img src="{{ singleProduct?.imagelink }}" alt="" />
           </div>
           <div class="card-body table-responsive">
             <table class="table table-hover">
@@ -115,6 +115,13 @@
             </table>
           </div>
         </div>
+        <button
+          *ngIf="singleProduct"
+          class="btn btn-success float-sm-right"
+          (click)="printToExcellSheet()"
+        >
+          Excell Çıktısı Al
+        </button>
       </div>
     </div>
   </div>
