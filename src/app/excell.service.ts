@@ -45,34 +45,24 @@ export class ExcellService {
     let exportableNewArray = [];
     array.map((el) => {
       exportableNewArray.push({
-        Barkod: el.asin + "BBLY",
+        Barkod: el.asin + "-BBFY",
         "Model Kodu": "???",
         Marka: el.companyname,
         Kategori: el.category,
-        "Para Birimi": "TL",
+        "Para Birimi": "TRY",
         "Ürün Adı": el.title,
-        "Ürün Açıklaması": el.description,
+        "Ürün Açıklaması": el.description[0],
         "Piyasa Satış Fiyatı (KDV Dahil)": +el.price + +parseFloat("20.0"),
         "Trendyol'da Satılacak Fiyat (KDV Dahil)":
-          +el.price + +parseFloat("10.0"),
+          +el.price + +parseFloat("0.0"),
         "Ürün Stok Adedi": el.availability,
         "Stok Kodu": "???",
-        "KDV Oranı": 18,
+        "KDV Oranı": "???",
         Desi: "???",
         "Görsel Linki": el.imagelink,
         "Sevkiyat Süresi": "???",
       });
     });
     return exportableNewArray;
-  }
-
-  currenyFormat(amount: string) {
-    const formatter = new Intl.NumberFormat("tr-TR", {
-      style: "currency",
-      currency: "TRY",
-      minimumFractionDigits: 2,
-    });
-
-    return parseFloat(amount.replace(/,/, "."));
   }
 }

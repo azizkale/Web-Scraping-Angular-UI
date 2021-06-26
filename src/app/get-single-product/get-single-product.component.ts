@@ -45,7 +45,6 @@ export class GetSingleProductComponent implements OnInit {
       .subscribe(
         (val: object) => {
           this.singleProduct = val;
-          console.log(val);
         },
 
         (err) => console.log(err),
