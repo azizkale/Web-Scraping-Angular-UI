@@ -1,29 +1,14 @@
 import {
   Component,
   ElementRef,
-  HostListener,
   OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
 } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+
 import { HttpserviceService } from "../httpservice.service";
-import {
-  map,
-  retryWhen,
-  tap,
-  take,
-  delay,
-  concatMap,
-  filter,
-  switchMap,
-} from "rxjs/operators";
+import { map, retryWhen, tap } from "rxjs/operators";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ExcellService } from "app/excell.service";
 import { ProductService } from "../product.service";
@@ -61,8 +46,7 @@ export class ProductlistComponent implements OnInit {
     private modalService: NgbModal,
     private excellservice: ExcellService,
     private productservice: ProductService,
-    private router: Router,
-    private el: ElementRef
+    private router: Router
   ) {
     this.products$ = productservice.products$;
     this.total$ = productservice.total$;
@@ -82,9 +66,7 @@ export class ProductlistComponent implements OnInit {
             if (val == null) throw new Error("Invalid Value");
             return val;
           }),
-          retryWhen((error) =>
-            error.pipe(tap(() => console.log("Retrying... ")))
-          )
+          retryWhen((error) => error.pipe(tap(() => "")))
         )
         .subscribe(
           (val: any) => {
@@ -95,7 +77,7 @@ export class ProductlistComponent implements OnInit {
           },
 
           (err) => console.log(err),
-          () => console.log("Complete")
+          () => ""
         );
     });
   }
