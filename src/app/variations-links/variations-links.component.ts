@@ -15,8 +15,17 @@ import {
   concatMap,
   filter,
   switchMap,
+  mergeMap,
 } from "rxjs/operators";
-import { interval, Observable, observable, of, throwError, timer } from "rxjs";
+import {
+  from,
+  interval,
+  Observable,
+  observable,
+  of,
+  throwError,
+  timer,
+} from "rxjs";
 
 declare var $: any;
 
@@ -76,39 +85,50 @@ export class VariationsLinksComponent implements OnInit {
         form["firstpage"],
         form["finalpage"]
       ) // gets products' urls
-      .subscribe((linkslist: any) => {
-        this.produtsCount = linkslist.length;
-        linkslist.map((link) => {
-          this.httpservice
-            .getVariationLinksOfProduct(
-              // gets products' variation urls
-              "http://localhost:4001/variationlinksofproduct",
-              link
+      .pipe(
+        tap((linkslist: string[]) => {
+          this.produtsCount = linkslist.length;
+          return linkslist;
+        })
+      )
+      .subscribe((result) => {
+        from(result)
+          .pipe(
+            mergeMap((link) =>
+              this.httpservice
+                .getVariationLinksOfProduct(
+                  // gets products' variation urls
+                  "http://localhost:4001/variationlinksofproduct",
+                  link
+                )
+                .pipe(
+                  map((val) => {
+                    if (val == null) throw new Error("Invalid Value");
+                    return val;
+                  }),
+                  retryWhen((error) =>
+                    error.pipe(
+                      delay(1000),
+                      tap(() => console.log("Retrying... "))
+                    )
+                  )
+                )
             )
-            .pipe(
-              map((val) => {
-                if (val == null) throw new Error("Invalid Value");
-                return val;
-              }),
-              retryWhen((error) =>
-                error.pipe(tap(() => console.log("Retrying... ")))
-              )
-            )
-            .subscribe(
-              (val: any) => {
-                this.variations.push(val);
-                val.variationsLinksOfProduct.map((link: string) => {
-                  // this.variationslinks.push(link);
-                  this.httpservice.variationLinks.push(link);
-                });
-                // this.productscount = this.variationslinks.length;
-                this.variatonsCount = this.httpservice.variationLinks.length;
-              },
+          )
+          .subscribe(
+            (val: any) => {
+              this.variations.push(val);
+              val.variationsLinksOfProduct.map((link: string) => {
+                // this.variationslinks.push(link);
+                this.httpservice.variationLinks.push(link);
+              });
+              // this.productscount = this.variationslinks.length;
+              this.variatonsCount = this.httpservice.variationLinks.length;
+            },
 
-              (err) => console.log(err),
-              () => console.log("Complete")
-            );
-        });
+            (err) => console.log(err),
+            () => console.log("Complete")
+          );
       });
   }
 
